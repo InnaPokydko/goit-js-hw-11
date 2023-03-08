@@ -7,18 +7,25 @@ import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
 const refs = {
-    form: document.querySelector('.search-form'),
-    input: document.querySelector('input[name=searchQuery]'),
-    Btn: document.querySelector('button'),
-    gallery: document.querySelector('.gallery'),
-    loadBtn: document.querySelector('.load-more')
-  };
-  refs.form.addEventListener('submit', onSubmit);
-  
-  
-  function onSubmit(e) {
-    e.preventDefault();
+  form: document.querySelector('.search-form'),
+  input: document.querySelector('input[name=searchQuery]'),
+  Btn: document.querySelector('button'),
+  gallery: document.querySelector('.gallery'),
+  loadBtn: document.querySelector('.load-more'),
+};
+refs.form.addEventListener('submit', onSubmit);
 
+function onSubmit(e) {
+  e.preventDefault();
+
+  const query = e.currentTarget.searchQuery.value.trim();
+
+  if (query === '') {
+    Notiflix.Notify.info('Please enter a valid value.');
+  }
+
+  fatchImg(query);
+}
 // const searchForm = document.querySelector('#search-form');
 // const gallery = document.querySelector('.gallery');
 // const loadMoreBtn = document.querySelector('.btn-load-more');
@@ -101,4 +108,3 @@ const refs = {
 
 // function alertEndOfSearch() {
 //   Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.");
-// }
