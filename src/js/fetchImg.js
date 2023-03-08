@@ -15,7 +15,7 @@ const KEY = '34168491-a08a19ec58377d1b70d25ff83';
 //     );
 //   }
 
-  const fatchImg = async () => {
+  acync function fatchImg () {
     const response = await fetch(`${BASE_URL}?KEY`);
     const imgs = await response.json();
     return imgs;
