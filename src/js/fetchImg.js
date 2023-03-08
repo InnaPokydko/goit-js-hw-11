@@ -15,10 +15,11 @@ const KEY = '34168491-a08a19ec58377d1b70d25ff83';
 //     );
 //   }
 
-  acync function fatchImg () {
-    const response = await fetch(`${BASE_URL}?KEY`);
+  acync function fatchImg (name) {
+    const response = await fetch(`${BASE_URL}?key=KEY&q=${name}`);
     const imgs = await response.json();
     return imgs;
   };
   
   fatchImg().then(imgs => console.log(imgs));
+  
