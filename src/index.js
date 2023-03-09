@@ -23,7 +23,6 @@ const perPage = 40;
 
 function onSubmit(e) {
   e.preventDefault();
-
   query = e.currentTarget.searchQuery.value.trim();
 
   if (query === '') {
