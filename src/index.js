@@ -24,14 +24,14 @@ const perPage = 40;
 function onSubmit(e) {
   e.preventDefault();
   query = e.currentTarget.searchQuery.value.trim();
-
+  
   if (query === '') {
-    Notiflix.Notify.info('Please enter a valid value.');
+    Notiflix.Notify.failure('The search string cannot be empty. Please specify your search query.');
   }
 
   fatchImg(query, page, perPage)
     .then(({ data }) => {
-      if (data.totalHits === 0) {
+      if (data.totalHits === 1) {
         Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images.`);
       } else {
         renderImg(data.hits);
@@ -39,7 +39,7 @@ function onSubmit(e) {
         Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images.`);
 
         if (data.totalHits > perPage) {
-          loadMoreBtn.classList.remove('is-hidden');
+          refs.loadMoreBtn.classList.remove('is-hidden');
         }
       }
     })
@@ -53,7 +53,7 @@ function OnLoadMore() {
   page += 1;
   simpleLightBox.destroy();
 
-  fetchImages(query, page, perPage)
+  fatchImg(query, page, perPage)
     .then(({ data }) => {
       renderImg(data.hits);
       simpleLightBox = new SimpleLightbox('.gallery a').refresh();
@@ -61,7 +61,7 @@ function OnLoadMore() {
       const totalPages = Math.ceil(data.totalHits / perPage);
 
       if (page > totalPages) {
-        loadMoreBtn.classList.add('is-hidden');
+        refs.loadMoreBtn.classList.add('is-hidden');
         Notiflix.Notify.failure('The search string cannot be empty. Please specify your search query.');
       }
     })
