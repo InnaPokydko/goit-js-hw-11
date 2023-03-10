@@ -1,9 +1,8 @@
-
+import './css/styles.css';
 import { renderImg } from './js/renderImg';
 import { fatchImg } from './js/fetchImg';
 import Notiflix from 'notiflix';
 import SimpleLightbox from 'simplelightbox';
-import './css/styles.css';
 
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
@@ -39,7 +38,7 @@ function onSubmit(e) {
         Notiflix.Notify.failure(
           'The search string cannot be empty or not valid. Please specify your search query.'
         );
-      } else {
+      } else { 
         renderImg(data.hits);
         simpleLightBox = new SimpleLightbox('.gallery a').refresh();
         Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images.`);
@@ -60,11 +59,18 @@ function OnLoadMore() {
   simpleLightBox.destroy();
 
   fatchImg(query, page, perPage)
-    .then(({ data }) => {
+    .then(({ data }) => { 
+      const totalPages = Math.ceil(data.totalHits / perPage);
+      if (page > totalPages) {
+      refs.loadMoreBtn.classList.add('is-hidden');
+      Notiflix.Notify.failure(
+        'Sorry, there are no images matching your search query.'
+      );
+    }
       renderImg(data.hits);
       simpleLightBox = new SimpleLightbox('.gallery a').refresh();
 
-      const totalPages = Math.ceil(data.totalHits / perPage);
+      
 
       if (page > totalPages) {
         refs.loadMoreBtn.classList.add('is-hidden');
@@ -79,4 +85,5 @@ function OnLoadMore() {
 function cleanGallery() {
   refs.gallery.innerHTML = '';
   page = 1;
+  refs.loadMoreBtn.classList.add('is-hidden');
 }
