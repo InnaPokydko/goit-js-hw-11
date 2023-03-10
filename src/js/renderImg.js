@@ -10,7 +10,7 @@ function renderImg(images) {
         
           <a class="photo-link" href="${largeImageURL}">
             <div class="photo-card" id="${id}">
-              <img class="photo-card__img" src="${webformatURL}" alt="${tags}" loading="lazy we" />
+              <img class="photo-card__img" src="${webformatURL}" alt="${tags}" loading="lazy" />
               <div class="info">
                 <p class="info-item"><b>Likes</b>${likes}</p>
                 <p class="info-item"><b>Views</b>${views}</p>
