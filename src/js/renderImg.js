@@ -7,9 +7,10 @@ function renderImg(images) {
       .map(image => {
         const { id, largeImageURL, webformatURL, tags, likes, views, comments, downloads } = image;
         return `
+        
           <a class="photo-link" href="${largeImageURL}">
             <div class="photo-card" id="${id}">
-              <img class="photo-card__img" src="${webformatURL}" alt="${tags}" loading="lazy" />
+              <img class="photo-card__img" src="${webformatURL}" alt="${tags}" loading="lazy we" />
               <div class="info">
                 <p class="info-item"><b>Likes</b>${likes}</p>
                 <p class="info-item"><b>Views</b>${views}</p>
@@ -18,6 +19,7 @@ function renderImg(images) {
               </div>
             </div>
           </a>
+         
         `;
       })
       .join('');
