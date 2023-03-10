@@ -24,36 +24,32 @@ const perPage = 40;
 function onSubmit(e) {
   e.preventDefault();
   query = e.currentTarget.searchQuery.value.trim();
+  refs.loadMoreBtn.classList.add('is-hidden');
 
   if (query === '') {
-    Notiflix.Notify.failure(
-      'The search string cannot be empty. Please specify your search query.'
-    );
-
-    refs.loadMoreBtn.classList.add('is-hidden');
+    Notiflix.Notify.warning('Enter text to search the gallery.');
   }
-  if (query !== '') {
-    fatchImg(query, page, perPage)
-      .then(data => {
-        if (data.totalHits === 0) {
-          Notiflix.Notify.successailure(
-            'The search string cannot be empty. Please specify your search query.'
-          );
-        } else {
-          renderImg(data.hits);
-          simpleLightBox = new SimpleLightbox('.gallery a').refresh();
-          Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images.`);
 
-          if (data.totalHits > perPage) {
-            refs.loadMoreBtn.classList.remove('is-hidden');
-          }
+  fatchImg(query, page, perPage)
+    .then(({ data }) => {
+      if (data.totalHits === 0) {
+        Notiflix.Notify.failure(
+          'The search string cannot be empty. Please specify your search query.'
+        );
+      } else {
+        renderImg(data.hits);
+        simpleLightBox = new SimpleLightbox('.gallery a').refresh();
+        Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images.`);
+
+        if (data.totalHits > perPage) {
+          refs.loadMoreBtn.classList.remove('is-hidden');
         }
-      })
-      .catch(error => console.log(error))
-      .finally(() => {
-        refs.form.reset();
-      });
-  }
+      }
+    })
+    .catch(error => console.log(error))
+    .finally(() => {
+      refs.form.reset();
+    });
 }
 
 function OnLoadMore() {
@@ -61,7 +57,7 @@ function OnLoadMore() {
   simpleLightBox.destroy();
 
   fatchImg(query, page, perPage)
-    .then(data => {
+    .then(({ data }) => {
       renderImg(data.hits);
       simpleLightBox = new SimpleLightbox('.gallery a').refresh();
 
@@ -70,7 +66,7 @@ function OnLoadMore() {
       if (page > totalPages) {
         refs.loadMoreBtn.classList.add('is-hidden');
         Notiflix.Notify.failure(
-          'The search string cannot be empty. Please specify your search query.'
+          'Sorry, there are no images matching your search query.'
         );
       }
     })
