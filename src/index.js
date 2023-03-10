@@ -1,8 +1,9 @@
-import './css/styles.css';
+
 import { renderImg } from './js/renderImg';
 import { fatchImg } from './js/fetchImg';
 import Notiflix from 'notiflix';
 import SimpleLightbox from 'simplelightbox';
+import './css/styles.css';
 
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
