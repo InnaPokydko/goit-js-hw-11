@@ -28,13 +28,16 @@ function onSubmit(e) {
 
   if (query === '') {
     Notiflix.Notify.warning('Enter text to search the gallery.');
-    
+    refs.gallery.innerHTML = '';
     return refs.loadMoreBtn.classList.add('is-hidden');;
       }
 
   fatchImg(query, page, perPage)
     .then(({ data }) => {
       if (data.totalHits === 0) {
+        refs.gallery.innerHTML = '';
+        refs.loadMoreBtn.classList.add('is-hidden');
+        
         Notiflix.Notify.failure(
           'The search string cannot be empty or not valid. Please specify your search query.'
         );
@@ -46,7 +49,15 @@ function onSubmit(e) {
         if (data.totalHits > perPage) {
           refs.loadMoreBtn.classList.remove('is-hidden');
           return;
-        }
+        }  
+        if (data.totalHits <= perPage) {
+          refs.loadMoreBtn.classList.add('is-hidden');
+          refs.loadMoreBtn.classList.remove('load-more');
+        Notiflix.Notify.failure(
+          'Sorry, there are no images matching your search query.'
+        );
+          return;
+        }  
       }
     })
     .catch(error => console.log(error))
@@ -66,8 +77,9 @@ function OnLoadMore() {
 
       const totalPages = Math.ceil(data.totalHits / perPage);
 
-      if (page > totalPages) {
+      if (page >= totalPages) {
         refs.loadMoreBtn.classList.add('is-hidden');
+        refs.loadMoreBtn.classList.remove('load-more');
         Notiflix.Notify.failure(
           'Sorry, there are no images matching your search query.'
         );
