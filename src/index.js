@@ -45,6 +45,7 @@ function onSubmit(e) {
 
         if (data.totalHits > perPage) {
           refs.loadMoreBtn.classList.remove('is-hidden');
+          return;
         }
       }
     })
